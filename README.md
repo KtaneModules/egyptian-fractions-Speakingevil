@@ -1,1 +1,1 @@
-# egyptian-fractions
+#[ModKit Wiki](../../wiki)
