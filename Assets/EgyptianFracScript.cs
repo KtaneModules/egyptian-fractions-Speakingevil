@@ -164,15 +164,54 @@ public class EgyptianFracScript : MonoBehaviour {
             while (s[subnum] % 10 != command[1] - '0')
             {
                 buttons[1].OnInteract();
-                yield return null;
+                yield return new WaitForSeconds(0.05f);
             }
             while (s[subnum] / 10 != command[0] - '0')
             {
                 buttons[0].OnInteract();
-                yield return null;
+                yield return new WaitForSeconds(0.05f);
             }
         }
         else
             yield return "sendtochaterror Invalid command. Enter \"submit\", \"back\", or a number below 100.";
+    }
+
+    private IEnumerator TwitchHandleForcedSolve()
+    {
+        int startIx;
+        for (startIx = 0; startIx < 4; startIx++)
+        {
+            if (s[startIx] == gens[startIx])
+                continue;
+            goto wrong;
+        }
+        buttons[2].OnInteract();
+        yield break;
+        wrong:
+        while (subnum != startIx)
+        {
+            if (subnum > startIx)
+                buttons[3].OnInteract();
+            else
+                buttons[2].OnInteract();
+            yield return new WaitForSeconds(0.05f);
+        }
+        for (int i = startIx; i < 4; i++)
+        {
+            while (s[i] % 10 != gens[i] % 10)
+            {
+                buttons[1].OnInteract();
+                yield return new WaitForSeconds(0.05f);
+            }
+            while (s[i] / 10 != gens[i] / 10)
+            {
+                buttons[0].OnInteract();
+                yield return new WaitForSeconds(0.05f);
+            }
+            buttons[2].OnInteract();
+            yield return new WaitForSeconds(0.05f);
+        }
+        // Debug.Log(gens.Join(" "));
+        // yield break;
     }
 }
